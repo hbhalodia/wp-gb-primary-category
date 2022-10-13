@@ -52,13 +52,22 @@ class WP_GB_Primary_Category_Assets {
 			filemtime( WP_GB_PRIMARY_CATEGORY_PATH . '/build/index.js' ),
 		);
 
-		$taxonomy_name = apply_filters( 'wp_gb_primary_category_filter_taxonomy', 'category' );
+		$taxonomy = apply_filters( 'wp_gb_primary_category_filter_taxonomy', array( 'taxonomy' => 'category', 'taxonomyName' => 'Category' ) );
+
+		if ( ! is_array( $taxonomy ) || empty( $taxonomy ) ) {
+			return;
+		}
+
+		if ( ! array_key_exists( 'taxonomy', $taxonomy ) || ! array_key_exists( 'taxonomyName', $taxonomy ) ) {
+			return;
+		}
 
 		wp_localize_script(
 			'wp-gb-primary-category-js',
 			'wpGbPrimaryCategory',
 			array(
-				'Taxonomy' => $taxonomy_name,
+				'Taxonomy'     => $taxonomy['taxonomy'],
+				'TaxonomyName' => $taxonomy['taxonomyName'],
 			)
 		);
 

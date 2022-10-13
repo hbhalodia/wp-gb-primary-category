@@ -8,22 +8,24 @@ const { union, map, isEmpty } = lodash;
 
 const RenderWpGbPrimaryCategoryMeta = () => {
 
-	const { wpGbPrimarycategoryId, categoryTypes, Taxonomy } = useSelect( ( select ) => {
+	const { wpGbPrimarycategoryId, categoryTypes, Taxonomy, TaxonomyName } = useSelect( ( select ) => {
 
-		const Taxonomy      = wpGbPrimaryCategory.Taxonomy;
+		const Taxonomy      = wpGbPrimaryCategory?.Taxonomy;
+		const TaxonomyName  = wpGbPrimaryCategory?.TaxonomyName;
 		const categoryTypes = select( 'core' ).getEntityRecords( 'taxonomy', Taxonomy, { per_page: 20 } );
 		return {
 			wpGbPrimarycategoryId: String( select( 'core/editor' ).getEditedPostAttribute( 'meta' )['wp_gb_primary_category'] ),
 			categoryTypes: union(
 				[
 					{
-						'name': __( 'Select Category', 'astro-gutenberg-block' ),
+						'name': __( 'Select ' + TaxonomyName, 'wp-gb-primary-category' ),
 						'id': '0',
 					}
 				],
 				categoryTypes,
 			),
 			Taxonomy: Taxonomy,
+			TaxonomyName: TaxonomyName,
 		};
 	} );
 
@@ -66,7 +68,7 @@ const RenderWpGbPrimaryCategoryMeta = () => {
 
 	const fetchWpGbPrimaryCategoryName = ( value ) => {
 		if ( '0' === wpGbPrimarycategoryId ) {
-			return __( 'Primary Catgory Not Selected', 'astro-gutenberg-block' );
+			return __( 'Primary ' + TaxonomyName  + ' Not Selected', 'wp-gb-primary-category');
 		} else {
 			if ( '0' !== value ) {
 				const newData = wp.data.select( 'core' ).getEntityRecords( 'taxonomy', Taxonomy, { include: [ parseInt( value ) ] } );
@@ -80,10 +82,10 @@ const RenderWpGbPrimaryCategoryMeta = () => {
 						</>
 					);
 				} else {
-					return __( 'Loading...', 'astro-gutenberg-block' );
+					return __( 'Loading...', 'wp-gb-primary-category');
 				}
 			} else {
-				return __( 'Primary Catgory Not Selected', 'astro-gutenberg-block' );
+				return __( 'Primary ' + TaxonomyName  + ' Not Selected', 'wp-gb-primary-category');
 			}
 		}
 	}
@@ -91,7 +93,7 @@ const RenderWpGbPrimaryCategoryMeta = () => {
 	return (
 		<>
 			<ComboboxControl
-				help={ __( 'Search Category to get Suggestions', 'astro-gutenberg-block' ) }
+				help={ __( 'Search ' + TaxonomyName  + ' to get Suggestions', 'wp-gb-primary-category') }
 				value={ newWpGbPrimaryCategoryId }
 				onChange={ ( value ) => setNewWpGbPrimaryCategoryIdValue( value ) }
 				options={ newCategoryList }
@@ -110,11 +112,13 @@ const RenderWpGbPrimaryCategoryMeta = () => {
 	);
 }
 
+const TaxonomyName = wpGbPrimaryCategory?.TaxonomyName;
+
 const PluginWpGbPrimaryCategory = () => (
 	// Create sidebar's (drop-down) panel.
 	<PluginDocumentSettingPanel
 		name="wp_gb_primary_category"
-		title={ __( 'Select Primary Category', 'wp-gb-primary-category' ) }
+		title={ __( 'Select Primary ' + TaxonomyName, 'wp-gb-primary-category' ) }
 		className="wp-gb-primary-category"
 	>
 		<RenderWpGbPrimaryCategoryMeta />
