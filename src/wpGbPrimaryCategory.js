@@ -8,9 +8,10 @@ const { union, map, isEmpty } = lodash;
 
 const RenderWpGbPrimaryCategoryMeta = () => {
 
-	const { wpGbPrimarycategoryId, categoryTypes } = useSelect( ( select ) => {
+	const { wpGbPrimarycategoryId, categoryTypes, Taxonomy } = useSelect( ( select ) => {
 
-		const categoryTypes = select( 'core' ).getEntityRecords( 'taxonomy', 'category', { per_page: 20 } );
+		const Taxonomy      = wpGbPrimaryCategory.Taxonomy;
+		const categoryTypes = select( 'core' ).getEntityRecords( 'taxonomy', Taxonomy, { per_page: 20 } );
 		return {
 			wpGbPrimarycategoryId: String( select( 'core/editor' ).getEditedPostAttribute( 'meta' )['wp_gb_primary_category'] ),
 			categoryTypes: union(
@@ -22,6 +23,7 @@ const RenderWpGbPrimaryCategoryMeta = () => {
 				],
 				categoryTypes,
 			),
+			Taxonomy: Taxonomy,
 		};
 	} );
 
@@ -47,7 +49,7 @@ const RenderWpGbPrimaryCategoryMeta = () => {
 		if ( '' === value ) {
 			setNewCategoryList( categoryList );
 		} else {
-			let queryData = wp.data.select( 'core' ).getEntityRecords( 'taxonomy', 'category', { per_page: 5, search: value } );
+			let queryData = wp.data.select( 'core' ).getEntityRecords( 'taxonomy', Taxonomy, { per_page: 5, search: value } );
 
 			if ( null !== queryData && 'undefined' !== typeof queryData && 0 < queryData.length ) {
 
@@ -67,7 +69,7 @@ const RenderWpGbPrimaryCategoryMeta = () => {
 			return __( 'Primary Catgory Not Selected', 'astro-gutenberg-block' );
 		} else {
 			if ( '0' !== value ) {
-				const newData = wp.data.select( 'core' ).getEntityRecords( 'taxonomy', 'category', { include: [ parseInt( value ) ] } );
+				const newData = wp.data.select( 'core' ).getEntityRecords( 'taxonomy', Taxonomy, { include: [ parseInt( value ) ] } );
 
 				if ( null !== newData && 'undefined' !== typeof newData && 0 < newData.length ) {
 					return (
