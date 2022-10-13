@@ -80,11 +80,9 @@ class WP_GB_Primary_Category_Metabox {
 	/**
 	 * Function to register the metabox.
 	 *
-	 * @param string $post_type Current Post type.
-	 *
 	 * @return void
 	 */
-	public function wp_gb_primary_category_add_meta_box( string $post_type ): void {
+	public function wp_gb_primary_category_add_meta_box(): void {
 
 		// Check if current screen is Gutenberg Editor then no need to add the metabox this way.
 		$current_screen = get_current_screen();
@@ -92,12 +90,14 @@ class WP_GB_Primary_Category_Metabox {
 			return;
 		}
 
+		$post_type_array = apply_filters( 'wp_gb_add_cpt_classic_editor_support', array( 'post' ) );
+
 		// Register the metabox.
 		add_meta_box(
 			self::$meta_key,
 			'Select Primary Category',
 			array( $this, 'wp_gb_primary_category_html_callback' ),
-			$post_type,
+			$post_type_array,
 			self::$context,
 			self::$priority,
 		);
