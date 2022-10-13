@@ -1,1 +1,1 @@
-# wp-primary-category
+# wp-gb-primary-category
