@@ -46,8 +46,30 @@ class WP_GB_Primary_Category_Metabox {
 	 * @return void
 	 */
 	public function setup_hooks() {
+
+		// Register all the meta based on post type here.
+		add_action( 'init', array( $this, 'wp_gb_primary_category_custom_meta' ), 10 );
+
 		add_action( 'add_meta_boxes', array( $this, 'wp_gb_primary_category_add_meta_box' ), 10, 1 );
 		add_action( 'save_post', array( $this, 'wp_gb_primary_category_save_meta' ) );
+	}
+
+	/**
+	 * Function to get meta available on the register side.
+	 *
+	 * @return void
+	 */
+	public function wp_gb_primary_category_custom_meta(): void {
+
+		// Register Meta Here.
+		register_post_meta( 'post', self::$meta_key, array(
+			'show_in_rest'      => true,
+			'type'              => 'string',
+			'single'            => true,
+			'auth_callback'     => function() {
+				return current_user_can( 'edit_posts' );
+			}
+		) );
 	}
 
 	/**

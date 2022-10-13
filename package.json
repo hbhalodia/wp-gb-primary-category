@@ -1,0 +1,28 @@
+{
+  "name": "wp-gb-primary-category",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "wp-scripts start",
+    "build": "wp-scripts build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hbhalodia/wp-primary-category.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hbhalodia/wp-primary-category/issues"
+  },
+  "homepage": "https://github.com/hbhalodia/wp-primary-category#readme",
+  "devDependencies": {
+    "@wordpress/scripts": "^24.3.0"
+  },
+  "dependencies": {
+    "@wordpress/edit-post": "^6.16.0",
+    "@wordpress/i18n": "^4.19.0",
+    "@wordpress/plugins": "^4.17.0"
+  }
+}

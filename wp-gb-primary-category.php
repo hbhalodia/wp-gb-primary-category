@@ -13,6 +13,11 @@
  * @package            wp-gb-primary-category
  */
 
+
+if( ! defined( 'ABSPATH') ) {
+	exit;
+}
+
 define( 'WP_GB_PRIMARY_CATEGORY_PATH', untrailingslashit( plugin_dir_path( __FILE__ ) ) );
 define( 'WP_GB_PRIMARY_CATEGORY_URL', untrailingslashit( plugin_dir_url( __FILE__ ) ) );
 
