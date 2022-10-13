@@ -44,6 +44,8 @@ class WP_GB_Primary_Category_Assets {
 	 */
 	public function wp_gb_primary_category_enqueue_block_editor_asset(): void {
 
+		$current_screen = get_current_screen();
+
 		// Enqueue Script for plugin sidebar.
 		wp_register_script(
 			'wp-gb-primary-category-js',
@@ -51,6 +53,12 @@ class WP_GB_Primary_Category_Assets {
 			self::$editor_dependency,
 			filemtime( WP_GB_PRIMARY_CATEGORY_PATH . '/build/index.js' ),
 		);
+
+		$remove_post_type = apply_filters( 'wp_gb_primary_category_remove_from_post_type', array() );
+
+		if ( property_exists( $current_screen, 'id' ) && in_array( $current_screen->id, $remove_post_type, true ) ) {
+			return;
+		}
 
 		$taxonomy = apply_filters( 'wp_gb_primary_category_filter_taxonomy', array( 'taxonomy' => 'category', 'taxonomyName' => 'Category' ) );
 
