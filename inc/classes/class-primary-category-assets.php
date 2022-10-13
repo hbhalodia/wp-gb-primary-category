@@ -50,7 +50,7 @@ class WP_GB_Primary_Category_Assets {
 			WP_GB_PRIMARY_CATEGORY_URL . '/build/index.js',
 			self::$editor_dependency,
 			filemtime( WP_GB_PRIMARY_CATEGORY_PATH . '/build/index.js' ),
-			true
 		);
 	}
 }
+new WP_GB_Primary_Category_Assets();

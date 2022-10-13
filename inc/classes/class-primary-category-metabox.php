@@ -66,6 +66,7 @@ class WP_GB_Primary_Category_Metabox {
 			'show_in_rest'      => true,
 			'type'              => 'string',
 			'single'            => true,
+			'default'           => "0",
 			'auth_callback'     => function() {
 				return current_user_can( 'edit_posts' );
 			}
