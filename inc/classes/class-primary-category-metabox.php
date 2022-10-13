@@ -61,16 +61,20 @@ class WP_GB_Primary_Category_Metabox {
 	 */
 	public function wp_gb_primary_category_custom_meta(): void {
 
-		// Register Meta Here.
-		register_post_meta( 'post', self::$meta_key, array(
-			'show_in_rest'      => true,
-			'type'              => 'string',
-			'single'            => true,
-			'default'           => "0",
-			'auth_callback'     => function() {
-				return current_user_can( 'edit_posts' );
-			}
-		) );
+		$post_type_array = apply_filters( 'wp_gb_add_cpt_support_meta', array( 'post' ) );
+
+		foreach ( $post_type_array as $post_type ) {
+			// Register Meta Here.
+			register_post_meta( $post_type, self::$meta_key, array(
+				'show_in_rest'      => true,
+				'type'              => 'string',
+				'single'            => true,
+				'default'           => "0",
+				'auth_callback'     => function() {
+					return current_user_can( 'edit_posts' );
+				}
+			) );
+		}
 	}
 
 	/**
