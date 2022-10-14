@@ -5,7 +5,13 @@
  * @package wp-primary-category
  */
 
-$get_categories = get_categories();
+$get_categories = get_categories(
+	array(
+		'taxonomy'   => 'category',
+		'hide_empty' => false
+	)
+);
+
 wp_nonce_field( 'wp_gb_primary_category_nonce_action', 'wp_gb_primary_category_nonce' );
 ?>
 <div>
@@ -22,4 +28,8 @@ wp_nonce_field( 'wp_gb_primary_category_nonce_action', 'wp_gb_primary_category_n
 			}
 		?>
 	</select>
+	<div>
+		<input type="text" class="wp-gb-primary-category" name="wp-gb-primary-category-2" id="wp-gb-primary-category-2" value="" />
+		<div id="autocmplete-result"></div>
+	</div>
 </div>

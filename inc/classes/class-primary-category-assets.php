@@ -35,6 +35,7 @@ class WP_GB_Primary_Category_Assets {
 
 		// Actions.
 		add_action( 'enqueue_block_editor_assets', array( $this, 'wp_gb_primary_category_enqueue_block_editor_asset' ), 10 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'wp_gb_primary_category_admin_enqueue_script' ) );
 	}
 
 	/**
@@ -80,6 +81,35 @@ class WP_GB_Primary_Category_Assets {
 		);
 
 		wp_enqueue_script( 'wp-gb-primary-category-js' );
+	}
+
+	/**
+	 * Function to add the autocomplete js for classic editor.
+	 *
+	 * @return void
+	 */
+	public function wp_gb_primary_category_admin_enqueue_script(): void {
+
+		wp_register_script(
+			'wp-gb-primary-category-autocomplete',
+			WP_GB_PRIMARY_CATEGORY_URL . '/src/autocomplete-category.js',
+			array( 'jquery' ),
+			filemtime( WP_GB_PRIMARY_CATEGORY_PATH . '/src/autocomplete-category.js' ),
+			true
+		);
+
+		$nonce = wp_create_nonce( 'wp-gb-primary-category-ajaxnonce' );
+
+		wp_localize_script(
+			'wp-gb-primary-category-autocomplete',
+			'wpGbPrimaryCategory',
+			array(
+				'ajaxCode' => $nonce,
+				'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
+			)
+		);
+
+		wp_enqueue_script( 'wp-gb-primary-category-autocomplete' );
 	}
 }
 new WP_GB_Primary_Category_Assets();

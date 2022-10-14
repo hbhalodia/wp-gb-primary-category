@@ -24,3 +24,4 @@ define( 'WP_GB_PRIMARY_CATEGORY_URL', untrailingslashit( plugin_dir_url( __FILE_
 
 require_once WP_GB_PRIMARY_CATEGORY_PATH . '/inc/classes/class-primary-category-assets.php';
 require_once WP_GB_PRIMARY_CATEGORY_PATH . '/inc/classes/class-primary-category-metabox.php';
+require_once WP_GB_PRIMARY_CATEGORY_PATH . '/inc/classes/class-primary-category-ajax.php';
