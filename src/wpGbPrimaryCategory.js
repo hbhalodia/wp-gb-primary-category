@@ -76,9 +76,9 @@ const RenderWpGbPrimaryCategoryMeta = () => {
 				if ( null !== newData && 'undefined' !== typeof newData && 0 < newData.length ) {
 					return (
 						<>
-							<a href={ newData[0].link }>
+							<h4><a href={ newData[0].link }>
 								{ newData[0].name }
-							</a>
+							</a></h4>
 						</>
 					);
 				} else {
@@ -101,7 +101,6 @@ const RenderWpGbPrimaryCategoryMeta = () => {
 					setNewCategoryListFilteredOptions( inputValue )
 				}
 			/>
-			<br />
 			{ fetchWpGbPrimaryCategoryName( newWpGbPrimaryCategoryId ) }
 			<TextControl
 				type="hidden"
