@@ -102,7 +102,7 @@ class WP_GB_Primary_Category_Assets {
 
 		wp_localize_script(
 			'wp-gb-primary-category-autocomplete',
-			'wpGbPrimaryCategory',
+			'wpGbPrimaryCategoryClassic',
 			array(
 				'ajaxCode' => $nonce,
 				'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
