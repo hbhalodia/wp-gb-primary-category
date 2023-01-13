@@ -55,19 +55,30 @@ class WP_GB_Primary_Category_Metabox {
 	}
 
 	/**
-	 * Function to get meta available on the register side.
+	 * Function used to add filter the post type where to show the crimary category meta.
 	 *
-	 * @return void
+	 * @return array
 	 */
-	public function wp_gb_primary_category_custom_meta(): void {
+	private function wp_gb_post_type_support_for_meta(): array {
 
 		$post_type = array( 'post' );
+
 		/**
 		 * Filters the support to register meta for different post types.
 		 *
 		 * @param array $post_type Add different post type name to add support for meta.
 		 */
 		$post_type_array = apply_filters( 'wp_gb_add_cpt_support_meta', $post_type );
+
+		return $post_type_array;
+	}
+
+	/**
+	 * Function to add the filter to get taxonomies for both classic and GB support.
+	 *
+	 * @return array
+	 */
+	private function wp_gb_get_taxonomies(): array {
 
 		$tax = array( 'category', 'post_tag' );
 
@@ -81,7 +92,20 @@ class WP_GB_Primary_Category_Metabox {
 		 *
 		 * @param array $tax Taxonomy name to create meta keys.
 		 */
-		$taxonomies      = apply_filters( 'wp_gb_add_taxonomies', $tax );
+		$taxonomies = apply_filters( 'wp_gb_add_taxonomies', $tax );
+
+		return $taxonomies;
+	}
+
+	/**
+	 * Function to get meta available on the register side.
+	 *
+	 * @return void
+	 */
+	public function wp_gb_primary_category_custom_meta(): void {
+
+		$post_type_array = $this->wp_gb_post_type_support_for_meta();
+		$taxonomies      = $this->wp_gb_get_taxonomies();
 
 		foreach ( $post_type_array as $post_type ) {
 			foreach( $taxonomies as $taxonomy ) {
@@ -115,12 +139,12 @@ class WP_GB_Primary_Category_Metabox {
 		/**
 		 * To add support for classic editor post type. for multiple meta keys.
 		 */
-		$post_type_array = apply_filters( 'wp_gb_add_cpt_classic_editor_support', array( 'post' ) );
+		$post_type_array = $this->wp_gb_post_type_support_for_meta();
 
 		// Register the metabox.
 		add_meta_box(
 			self::$meta_key,
-			'Select Primary Category',
+			'Select Primary Categories',
 			array( $this, 'wp_gb_primary_category_html_callback' ),
 			$post_type_array,
 			self::$context,
