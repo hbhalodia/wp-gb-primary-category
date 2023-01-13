@@ -135,6 +135,15 @@ class WP_GB_Primary_Category_Assets {
 		);
 
 		wp_enqueue_script( 'wp-gb-primary-category-autocomplete' );
+
+		wp_register_style(
+			'wp-gb-primary-category-admin-css',
+			WP_GB_PRIMARY_CATEGORY_URL . '/src/css/admin-index.css',
+			array(),
+			filemtime( WP_GB_PRIMARY_CATEGORY_PATH . '/src/css/admin-index.css' ),
+		);
+
+		wp_enqueue_style( 'wp-gb-primary-category-admin-css' );
 	}
 }
 new WP_GB_Primary_Category_Assets();

@@ -144,7 +144,7 @@ class WP_GB_Primary_Category_Metabox {
 		// Register the metabox.
 		add_meta_box(
 			self::$meta_key,
-			'Select Primary Categories',
+			'WP GB Primary Category Metabox',
 			array( $this, 'wp_gb_primary_category_html_callback' ),
 			$post_type_array,
 			self::$context,
@@ -160,9 +160,21 @@ class WP_GB_Primary_Category_Metabox {
 	 * @return void
 	 */
 	public function wp_gb_primary_category_html_callback( \WP_Post $post ): void {
-		$meta = get_post_meta( $post->ID, self::$meta_key, true );
+		$taxonomies = $this->wp_gb_get_taxonomies();
 
-		require_once WP_GB_PRIMARY_CATEGORY_PATH . '/inc/templates/primary-category.php';
+		wp_nonce_field( 'wp_gb_primary_category_nonce_action', 'wp_gb_primary_category_nonce' );
+
+		foreach ( $taxonomies as $taxonomy ) {
+			$meta           = get_post_meta( $post->ID, self::$meta_key . $taxonomy, true );
+			$get_taxonomy   = get_taxonomy( $taxonomy );
+			$get_categories = get_categories(
+				array(
+					'taxonomy'   => $taxonomy,
+					'hide_empty' => false
+				)
+			);
+			include WP_GB_PRIMARY_CATEGORY_PATH . '/inc/templates/primary-category.php';
+		}
 	}
 
 	/**

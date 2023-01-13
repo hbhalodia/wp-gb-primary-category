@@ -5,17 +5,15 @@
  * @package wp-primary-category
  */
 
-$get_categories = get_categories(
-	array(
-		'taxonomy'   => 'category',
-		'hide_empty' => false
-	)
-);
+if ( property_exists( $get_taxonomy, 'labels' ) && property_exists( $get_taxonomy->labels, 'singular_name' ) ) {
+	$tax_name = $get_taxonomy->labels->singular_name;
+} else {
+	$tax_name = $taxonomy;
+}
 
-wp_nonce_field( 'wp_gb_primary_category_nonce_action', 'wp_gb_primary_category_nonce' );
 ?>
-<div>
-	<h3><?php esc_html_e( 'Select Primary Category', 'wp-gb-primary-category' ); ?></h3>
+<div class="wp-gb-wrapper">
+	<h4><?php echo esc_html( 'Select Primary ' . $tax_name ); ?></h4>
 	<select name="wp-gb-primary-category" id="wp-gb-primary-category">
 		<option value="0"><?php esc_html_e( 'Select Category', 'wp-gb-primary-category' ); ?></option>
 		<?php
@@ -28,8 +26,4 @@ wp_nonce_field( 'wp_gb_primary_category_nonce_action', 'wp_gb_primary_category_n
 			}
 		?>
 	</select>
-	<div>
-		<input type="text" class="wp-gb-primary-category" name="wp-gb-primary-category-2" id="wp-gb-primary-category-2" value="" />
-		<div id="autocmplete-result"></div>
-	</div>
 </div>

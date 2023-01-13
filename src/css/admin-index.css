@@ -1,0 +1,11 @@
+.wp-gb-wrapper {
+	display: flex;
+	justify-content: space-between;
+	max-width: 50%;
+	margin: 20px 0;
+	align-items: center;
+}
+
+.wp-gb-wrapper h4 {
+	margin: 0;
+}
