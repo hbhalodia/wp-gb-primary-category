@@ -69,7 +69,7 @@ class WP_GB_Primary_Category_Metabox {
 		 */
 		$post_type_array = apply_filters( 'wp_gb_add_cpt_support_meta', $post_type );
 
-		$tax = array( 'category' );
+		$tax = array( 'category', 'post_tag' );
 
 		/**
 		 * Filters the taxonomy whose meta we want to create from primary category.

@@ -71,8 +71,12 @@ class WP_GB_Primary_Category_Assets {
 		$taxonomies = array(
 			array(
 				'taxonomy' => 'category',
-				'taxonomyName' => 'Category'
+				'taxonomyName' => 'Category',
 			),
+			array(
+				'taxonomy' => 'post_tag',
+				'taxonomyName' => 'Post Tags',
+			)
 			// ....
 		);
 
