@@ -10,7 +10,7 @@
  * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       wp-gb-primary-category
  *
- * @package            wp-gb-primary-category
+ * @package           wp-gb-primary-category
  */
 
 
@@ -24,4 +24,3 @@ define( 'WP_GB_PRIMARY_CATEGORY_URL', untrailingslashit( plugin_dir_url( __FILE_
 
 require_once WP_GB_PRIMARY_CATEGORY_PATH . '/inc/classes/class-primary-category-assets.php';
 require_once WP_GB_PRIMARY_CATEGORY_PATH . '/inc/classes/class-primary-category-metabox.php';
-require_once WP_GB_PRIMARY_CATEGORY_PATH . '/inc/classes/class-primary-category-ajax.php';

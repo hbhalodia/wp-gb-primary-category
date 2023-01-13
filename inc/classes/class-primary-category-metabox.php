@@ -144,7 +144,7 @@ class WP_GB_Primary_Category_Metabox {
 		// Register the metabox.
 		add_meta_box(
 			self::$meta_key,
-			'WP GB Primary Category Metabox',
+			__( 'Primary Categories Selection', 'wp-gb-primary-category' ),
 			array( $this, 'wp_gb_primary_category_html_callback' ),
 			$post_type_array,
 			self::$context,

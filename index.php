@@ -4,4 +4,5 @@
  *
  * @package wp-primary-category
  */
+
 // Scilence is golden.

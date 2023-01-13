@@ -115,27 +115,6 @@ class WP_GB_Primary_Category_Assets {
 	 */
 	public function wp_gb_primary_category_admin_enqueue_script(): void {
 
-		wp_register_script(
-			'wp-gb-primary-category-autocomplete',
-			WP_GB_PRIMARY_CATEGORY_URL . '/src/autocomplete-category.js',
-			array( 'jquery' ),
-			filemtime( WP_GB_PRIMARY_CATEGORY_PATH . '/src/autocomplete-category.js' ),
-			true
-		);
-
-		$nonce = wp_create_nonce( 'wp-gb-primary-category-ajaxnonce' );
-
-		wp_localize_script(
-			'wp-gb-primary-category-autocomplete',
-			'wpGbPrimaryCategoryClassic',
-			array(
-				'ajaxCode' => $nonce,
-				'ajaxUrl'  => admin_url( 'admin-ajax.php' ),
-			)
-		);
-
-		wp_enqueue_script( 'wp-gb-primary-category-autocomplete' );
-
 		wp_register_style(
 			'wp-gb-primary-category-admin-css',
 			WP_GB_PRIMARY_CATEGORY_URL . '/src/css/admin-index.css',
