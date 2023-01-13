@@ -6,15 +6,14 @@ const { TextControl, ComboboxControl } = wp.components;
 const { useState } = wp.element;
 const { union, map, isEmpty } = lodash;
 
-const RenderWpGbPrimaryCategoryMeta = () => {
-
+const RenderWpGbPrimaryCategoryMeta = ( props ) => {
 	const { wpGbPrimarycategoryId, categoryTypes, Taxonomy, TaxonomyName } = useSelect( ( select ) => {
 
-		const Taxonomy      = wpGbPrimaryCategory?.Taxonomy;
-		const TaxonomyName  = wpGbPrimaryCategory?.TaxonomyName;
+		const Taxonomy      = props.primaryCategory?.taxonomy;
+		const TaxonomyName  = props.primaryCategory?.taxonomyName;
 		const categoryTypes = select( 'core' ).getEntityRecords( 'taxonomy', Taxonomy, { per_page: 20 } );
 		return {
-			wpGbPrimarycategoryId: String( select( 'core/editor' ).getEditedPostAttribute( 'meta' )['wp_gb_primary_category'] ),
+			wpGbPrimarycategoryId: String( select( 'core/editor' ).getEditedPostAttribute( 'meta' )[`wp_gb_primary_${Taxonomy}`] ),
 			categoryTypes: union(
 				[
 					{
@@ -43,7 +42,7 @@ const RenderWpGbPrimaryCategoryMeta = () => {
 
 	const setNewWpGbPrimaryCategoryIdValue = ( value ) => {
 		setWpGbPrimaryCategoryId( value );
-		editPost( { meta: { wp_gb_primary_category: String( value ) } } );
+		editPost( { meta: { [`wp_gb_primary_${Taxonomy}`]: String( value ) } } );
 	}
 
 	const setNewCategoryListFilteredOptions = ( value )=> {
@@ -105,22 +104,24 @@ const RenderWpGbPrimaryCategoryMeta = () => {
 			<TextControl
 				type="hidden"
 				value={ '0' === wpGbPrimarycategoryId ? '0' : wpGbPrimarycategoryId }
-				onChange={ ( value ) => editPost( { meta: { wp_gb_primary_category: String( value ) } } ) }
+				onChange={ ( value ) => editPost( { meta: { [`wp_gb_primary_${Taxonomy}`]: String( value ) } } ) }
 			/>
 		</>
 	);
 }
 
-const TaxonomyName = wpGbPrimaryCategory?.TaxonomyName;
-
 const PluginWpGbPrimaryCategory = () => (
 	// Create sidebar's (drop-down) panel.
 	<PluginDocumentSettingPanel
 		name="wp_gb_primary_category"
-		title={ __( 'Select Primary ' + TaxonomyName, 'wp-gb-primary-category' ) }
+		title={ __( 'Primary Categories Selection', 'wp-gb-primary-category' ) }
 		className="wp-gb-primary-category"
 	>
-		<RenderWpGbPrimaryCategoryMeta />
+		{
+			wpGbPrimaryCategory['primaryCategories'].map( (taxonomy,index) => {
+				return <RenderWpGbPrimaryCategoryMeta primaryCategory={taxonomy} />
+			} )
+		}
 	</PluginDocumentSettingPanel>
 );
 

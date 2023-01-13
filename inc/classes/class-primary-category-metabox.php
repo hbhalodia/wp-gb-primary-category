@@ -17,7 +17,7 @@ class WP_GB_Primary_Category_Metabox {
 	 *
 	 * @var string
 	 */
-	private static $meta_key = 'wp_gb_primary_category';
+	private static $meta_key = 'wp_gb_primary_';
 
 	/**
 	 * Context of meta box.
@@ -61,19 +61,41 @@ class WP_GB_Primary_Category_Metabox {
 	 */
 	public function wp_gb_primary_category_custom_meta(): void {
 
-		$post_type_array = apply_filters( 'wp_gb_add_cpt_support_meta', array( 'post' ) );
+		$post_type = array( 'post' );
+		/**
+		 * Filters the support to register meta for different post types.
+		 *
+		 * @param array $post_type Add different post type name to add support for meta.
+		 */
+		$post_type_array = apply_filters( 'wp_gb_add_cpt_support_meta', $post_type );
+
+		$tax = array( 'category' );
+
+		/**
+		 * Filters the taxonomy whose meta we want to create from primary category.
+		 *
+		 * NOTE - Keep this filter in sync with values passed in filter `wp_gb_primary_category_filter_taxonomy` at `./class-primary-category-assets.php`.
+		 * To prevent from unwanted/irregular results.
+		 *
+		 * This is because we have added the meta key support but if we do not add to GB panel it won't work out correctly.
+		 *
+		 * @param array $tax Taxonomy name to create meta keys.
+		 */
+		$taxonomies      = apply_filters( 'wp_gb_add_taxonomies', $tax );
 
 		foreach ( $post_type_array as $post_type ) {
-			// Register Meta Here.
-			register_post_meta( $post_type, self::$meta_key, array(
-				'show_in_rest'      => true,
-				'type'              => 'string',
-				'single'            => true,
-				'default'           => "0",
-				'auth_callback'     => function() {
-					return current_user_can( 'edit_posts' );
-				}
-			) );
+			foreach( $taxonomies as $taxonomy ) {
+				// Register Meta Here.
+				register_post_meta( $post_type, self::$meta_key . $taxonomy, array(
+					'show_in_rest'      => true,
+					'type'              => 'string',
+					'single'            => true,
+					'default'           => "0",
+					'auth_callback'     => function() {
+						return current_user_can( 'edit_posts' );
+					}
+				) );
+			}
 		}
 	}
 
@@ -90,6 +112,9 @@ class WP_GB_Primary_Category_Metabox {
 			return;
 		}
 
+		/**
+		 * To add support for classic editor post type. for multiple meta keys.
+		 */
 		$post_type_array = apply_filters( 'wp_gb_add_cpt_classic_editor_support', array( 'post' ) );
 
 		// Register the metabox.

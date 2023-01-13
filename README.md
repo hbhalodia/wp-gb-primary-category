@@ -7,5 +7,6 @@
 - Add filter `wp_gb_add_cpt_support_meta` and `wp_gb_add_cpt_classic_editor_support` to add support for different post type for Gutenberg and Classic Editor Meta.
 - Add filter `wp_gb_primary_category_filter_taxonomy` to filter the txonomy for Gutenberg support based on the post/cpt you view. Default would be `Category` Taxonomy.
 - Add filter `wp_gb_primary_category_remove_from_post_type` to remove primary category meta from particular post type in Gutenberg.
+- Add filter `wp_gb_add_taxonomies` to add taxonomies to create dynamic meta keys for different Taxonomy to add primary categories for same post.
 ## How to use
 - Clone the repo inside the plugins folder and activate through the plugins page.

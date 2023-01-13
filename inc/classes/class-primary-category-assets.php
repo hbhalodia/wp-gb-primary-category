@@ -55,19 +55,41 @@ class WP_GB_Primary_Category_Assets {
 			filemtime( WP_GB_PRIMARY_CATEGORY_PATH . '/build/index.js' ),
 		);
 
-		$remove_post_type = apply_filters( 'wp_gb_primary_category_remove_from_post_type', array() );
+		$post_type_remove = array();
+
+		/**
+		 * Filters the post type to remove primary category from that post type screen.
+		 *
+		 * @param array $post_type_remove To remove the support for primary category from that post screen.
+		 */
+		$remove_post_type = apply_filters( 'wp_gb_primary_category_remove_from_post_type', $post_type_remove );
 
 		if ( property_exists( $current_screen, 'id' ) && in_array( $current_screen->id, $remove_post_type, true ) ) {
 			return;
 		}
 
-		$taxonomy = apply_filters( 'wp_gb_primary_category_filter_taxonomy', array( 'taxonomy' => 'category', 'taxonomyName' => 'Category' ) );
+		$taxonomies = array(
+			array(
+				'taxonomy' => 'category',
+				'taxonomyName' => 'Category'
+			),
+			// ....
+		);
+
+		/**
+		 * Filters the taxonomy you want to add in GB panel.
+		 *
+		 * NOTE - Keep this filter in sync with values passed change in filter `wp_gb_add_taxonomies` at `./class-primary-category-metabox.php`.
+		 * To prevent from unwanted/irregular results.
+		 *
+		 * This is because we need to register meta key for all taxonomies and also to create GB panel for same.
+		 * If meta key is not registered it won't be saving the data to DB.
+		 *
+		 * @param array $taxonomies The taxonomies needed to add on GB panel.
+		 */
+		$taxonomy = apply_filters( 'wp_gb_primary_category_filter_taxonomy', $taxonomies );
 
 		if ( ! is_array( $taxonomy ) || empty( $taxonomy ) ) {
-			return;
-		}
-
-		if ( ! array_key_exists( 'taxonomy', $taxonomy ) || ! array_key_exists( 'taxonomyName', $taxonomy ) ) {
 			return;
 		}
 
@@ -75,8 +97,7 @@ class WP_GB_Primary_Category_Assets {
 			'wp-gb-primary-category-js',
 			'wpGbPrimaryCategory',
 			array(
-				'Taxonomy'     => $taxonomy['taxonomy'],
-				'TaxonomyName' => $taxonomy['taxonomyName'],
+				'primaryCategories' => $taxonomy,
 			)
 		);
 
