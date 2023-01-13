@@ -14,7 +14,7 @@ if ( property_exists( $get_taxonomy, 'labels' ) && property_exists( $get_taxonom
 ?>
 <div class="wp-gb-wrapper">
 	<h4><?php echo esc_html( 'Select Primary ' . $tax_name ); ?></h4>
-	<select name="wp-gb-primary-category" id="wp-gb-primary-category">
+	<select name="<?php echo esc_attr( 'wp-gb-primary-' . $taxonomy ); ?>" id="<?php echo esc_attr( 'wp-gb-primary-' . $taxonomy ); ?>">
 		<option value="0"><?php esc_html_e( 'Select Category', 'wp-gb-primary-category' ); ?></option>
 		<?php
 			if ( is_array( $get_categories ) && ! empty( $get_categories ) ) {

@@ -202,14 +202,16 @@ class WP_GB_Primary_Category_Metabox {
 			return;
 		}
 
-		if ( ! isset( $_POST['wp-gb-primary-category'] ) || empty( $_POST['wp-gb-primary-category'] ) ) {
-			delete_post_meta( $post_id, self::$meta_key );
-			return;
+		$all_taxonomies = $this->wp_gb_get_taxonomies();
+
+		foreach ( $all_taxonomies as $taxonomy ) {
+			if ( ! isset( $_POST['wp-gb-primary-' . $taxonomy ] ) || empty( $_POST['wp-gb-primary-' . $taxonomy ] ) ) {
+				delete_post_meta( $post_id, self::$meta_key . $taxonomy );
+			}
+
+			$save_meta_value = sanitize_text_field( $_POST['wp-gb-primary-' . $taxonomy ] );
+			update_post_meta( $post_id, self::$meta_key . $taxonomy, $save_meta_value );
 		}
-
-		$save_meta_value = sanitize_text_field( $_POST['wp-gb-primary-category'] );
-
-		update_post_meta( $post_id, self::$meta_key, $save_meta_value );
 	}
 }
 new WP_GB_Primary_Category_Metabox();
